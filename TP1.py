@@ -149,3 +149,67 @@ def asteriscos_2(filas):
 
 patron_2= asteriscos_2(5)
 print(patron_2)
+
+## Ejercicio 6
+# Datos de entrada: 2 numeros enteros positivos
+# Datos de salida: 1 número entero positivo
+# Proceso: convierto a los 2 numeros enteros en strings para sumarlos y que queden seguidos los números. Luego vuelvo a convertir a int
+def concat(nro1,nro2):
+    resultado= str(nro1)
+    resultado += str(nro2)
+    resultado= int(resultado)
+    return resultado
+
+conc= concat(1234,567)
+print(conc)
+
+## Ejercicio 7
+#asumimos 28 días para febrero, no tenemos en cuenta años bisiestos.
+def diasiguiente(dia,mes,año):
+    while fechavalida(dia, mes, año)==1: #verifiquemos que la fecha sea valida!, si es invalida func devuelve None
+        nuevodia= dia
+        nuevomes= mes
+        nuevoaño= año
+        if mes==2:
+            if dia<28:
+                nuevodia=dia+1
+            elif dia==28:
+                nuevodia=1
+                nuevomes= mes+1
+        #caso diciembre
+        elif mes==12:
+            if dia<30:
+                nuevodia=dia+1
+            elif dia==30:
+                nuevodia=1
+                nuevomes=1
+                nuevoaño=año+1
+        #caso meses con 31 dias
+        elif mes in [1,3,5,7,9,11]:
+            if dia<31:
+                nuevodia=dia+1
+            elif dia==31:
+                nuevodia=1
+                nuevomes=mes+1
+        #caso meses con 30 dias
+        elif mes in [4,6,8,10]:
+            if dia<30:
+                nuevodia=dia+1
+            elif dia==30:
+                nuevodia=1
+                nuevomes=mes+1
+        return nuevodia, nuevomes, nuevoaño
+
+masuno= diasiguiente(30,12,2023)
+print(masuno)   
+         
+# Sumar N días a una fecha
+n= 10
+dia,mes,año= 30,12,2002
+for i in range(0,n):
+    dia,mes,año= diasiguiente(dia,mes,año)
+mas_n= dia,mes,año
+print(mas_n)
+        
+#Calcular dias existentes entre una fecha y otra
+
