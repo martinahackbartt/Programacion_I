@@ -212,4 +212,74 @@ mas_n= dia,mes,año
 print(mas_n)
         
 #Calcular dias existentes entre una fecha y otra
+fecha1=30,12,2002
+fecha2=30,12,2003
+#primero vamos a ver qué fecha es anterior
+if fecha1[2]<fecha2[2]:
+    fecha_anterior= fecha1
+    fecha_posterior= fecha2
+elif fecha1[2]>fecha2[2]:
+    fecha_anterior= fecha2
+    fecha_posterior= fecha1
+else:
+    if fecha1[1]<fecha2[1]:
+        fecha_anterior= fecha1
+        fecha_posterior= fecha2
+    elif fecha1[1]>fecha2[1]:
+        fecha_anterior= fecha2
+        fecha_posterior= fecha1
+    else:
+        if fecha1[0]<fecha2[0]:
+            fecha_anterior= fecha1
+            fecha_posterior= fecha2
+        elif fecha1[0]>fecha2[0]:
+            fecha_anterior= fecha2
+            fecha_posterior= fecha1
 
+i = 0
+while fecha_anterior != fecha_posterior:
+    fecha_anterior = diasiguiente(fecha_anterior[0], fecha_anterior[1], fecha_anterior[2])
+    i += 1
+print("Número de días entre las fechas=", i)
+        
+## Problema 8
+def diadelasemana(dia,mes,año):
+    if mes<3:
+        mes= mes+10
+        año= año-1
+    else:
+        mes= mes-2
+    siglo= año//100
+    año2= año % 100
+    diasem= (((26*mes-2)//10)+dia+año2+(año2//4)+(siglo//4)-(2*siglo))%7
+    if diasem<0:
+        diasem= diasem+7
+    return diasem
+
+dia,mes,año= 1,8,2023
+
+calendario= [[[],[],[],[],[],[],[]],
+             [[],[],[],[],[],[],[]],
+             [[],[],[],[],[],[],[]],
+             [[],[],[],[],[],[],[]],
+             [[],[],[],[],[],[],[]]]
+
+for i in range(1,8-diadelasemana(dia, mes, año)):
+    calendario[0][diadelasemana(dia,mes,año)].append(i)
+    dia=dia+1
+
+    
+for m in range(1,5):
+    for f in range(0,7):
+        i+=1
+        calendario[m][f].append(i)
+
+print('')
+print("  Do   Lu   Ma   Mi   Ju   Vi   Sa")
+print("-" * 35)  # Ajustar el número de guiones según la alineación
+for semana in calendario:
+    for dia in semana:
+        # Si la celda contiene una lista y la lista no está vacía, imprime el primer elemento.
+        valor = dia[0] if isinstance(dia, list) and dia else ' '
+        print(f"{valor:>3}", end="  ")
+    print()  # Cambiar a la siguiente línea después de que toda la semana haya sido impresa
