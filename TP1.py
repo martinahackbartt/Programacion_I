@@ -31,7 +31,7 @@ else:
 
 
 ##Ejercicio 2
-#La función recibe de input 3 números enteros correspondientes a dia, mes y año.
+#La función recibe de input 3 números enteros positivos correspondientes a dia, mes y año.
 # Devuelve True (1) si se corresponde a una fecha correcta o False (0) si la fecha es inválida. 
 #Tenemos en cuenta cualquier año, pasado o futuro del 1800 al 2100
 def fechavalida(dia,mes,año):
@@ -54,7 +54,7 @@ def fechavalida(dia,mes,año):
         veredicto+=0
     return veredicto
     
-ver = fechavalida(1,15,2022)
+ver = fechavalida(1,12,2022)
 if ver==1:
     print("Esta fecha es válida!")
 else:
@@ -268,12 +268,14 @@ for i in range(1,8-diadelasemana(dia, mes, año)):
     calendario[0][diadelasemana(dia,mes,año)].append(i)
     dia=dia+1
 
-    
+  
 for m in range(1,5):
     for f in range(0,7):
-        i+=1
-        calendario[m][f].append(i)
+        if i<31:
+            i+=1
+            calendario[m][f].append(i)
 
+print(calendario)
 print('')
 print("  Do   Lu   Ma   Mi   Ju   Vi   Sa")
 print("-" * 35)  # Ajustar el número de guiones según la alineación
@@ -283,3 +285,52 @@ for semana in calendario:
         valor = dia[0] if isinstance(dia, list) and dia else ' '
         print(f"{valor:>3}", end="  ")
     print()  # Cambiar a la siguiente línea después de que toda la semana haya sido impresa
+    
+##Ejercicio 9
+#input: número entero que representa la cantidad de naranjas cosechadas
+#output: 3 números enteros que representan la cantidad de camiones que se pueden llenar, la cant de naranjas viables y las naranjas sobrantes
+#proceso
+
+import numpy as np 
+def naranjas(n_cosechadas):
+    n_aptas= []
+    n_jugo= []
+    for i in range(n_cosechadas): #iteracion que me genera, por cada naranja cosechada, un peso. A partir de ese peso evalua si es apta o es para jugo
+        peso= np.random.randint(150,350)
+        if 200<=peso<=350:
+            n_aptas.append(peso)
+        else:
+            n_jugo.append(peso)
+    cajones=[]
+    n_restantes= n_aptas.copy()
+    while n_restantes: #mientras que todavía queden naranjas, esta iteracion arma cajones de hasta 100u cada una
+        cajon, n_restantes = n_restantes[:100], n_restantes[100:]
+        cajones.append(cajon) 
+    sobrante= 0
+    if len(cajones[len(cajones)-1])<100:
+        sobrante+= len(cajones[len(cajones)-1])
+    c_restantes= cajones.copy()
+    camiones=0
+    while c_restantes:
+        suma = 0
+        nuevos_cajones = []
+        for cajon in c_restantes:
+            if suma + sum(cajon) < 500000:
+                suma += sum(cajon)
+            else:
+                nuevos_cajones.append(cajon)
+        c_restantes = nuevos_cajones
+        if suma >= (500000*0.8):
+            camiones += 1
+        else:
+            camiones+=0
+    return len(cajones), len(n_jugo), sobrante, camiones
+
+# Probar la función
+cajones, n_jugo, sobrante, camiones = naranjas(5000)
+print('Numero de cajones de 100U:', cajones)
+print('Numero de naranjas para jugo (no aptas):', n_jugo)
+print('Sobrante de naranjas que no entraron en un cajón:', sobrante)
+print('Se necesitan', camiones, 'camiones que estarán al menos al 80% de su capacidad para transportar la cosecha')
+
+
