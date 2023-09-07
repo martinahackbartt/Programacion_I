@@ -29,8 +29,7 @@ print(suma)
 #c
 def eliminar(lista, x):
     while x in lista:
-        if x in lista:
-            lista.remove(x)
+        lista.remove(x)
     return lista
 lista_prueba= [9873, 6363, 6814, 6363, 5598, 6180, 9940, 9209, 8002, 2984, 9826]
 lista_c= eliminar(lista_prueba,6363)
@@ -111,6 +110,11 @@ print('')
 print('Lista de cuadrados') 
 print(cuadrados)
 
+## puedo hacerlo sin hacer una funcion, directamente definiendo a la lista por comprensión
+print('Lista de cuadrados 2') 
+cuadrados2= [x**2 for x in range(6)]
+print(cuadrados2)
+
 ## Problema 4
 def eliminar_repes(lista1,lista2):
     for i in range(len(lista2)):
@@ -167,3 +171,85 @@ listanorm= normalizar(listita)
 print('')
 print('Lista original:',listita)
 print('Lista normalizada:',listanorm)
+
+## Problema 7
+lista1= [8,3,1]
+lista2= [5,9,7]
+
+## Problema 8
+lista8= [x for x in range(100,201)]
+print(lista8)
+
+## Problema 9
+#A = int(input("Enter A: "))   
+#B = int(input("Enter B: "))   
+
+A=1
+B=100
+
+lista9 = [j for j in range(A, B) if j % 7 == 0 and j % 5 != 0]
+print('')
+print('Lista ejercicio 9')
+print(lista9)
+
+## Problema 10
+lista_azar= [i for i in range(0,101)]
+lista10= [i for i in lista_azar if i%2!=0]
+print('')
+print('Lista al azar:',lista_azar)
+print('Lista de impares a partir de azar:',lista10)
+
+## Problema 11
+
+def validarAfiliado(nro_afiliado):
+    return 1000 <= nro_afiliado <= 9999
+
+def validarMotivo(motivo):
+    return motivo in [0, 1]
+
+def ingresoPacientes():
+    pacientes_urgencias = []
+    pacientes_turno = []
+
+    nro_afiliado = int(input("Ingresá el nro de afiliado o -1 si querés salir: "))
+
+    while nro_afiliado != -1:
+        if validarAfiliado(nro_afiliado):
+            motivo = int(input('Ingresá 0 si venís por una urgencia, 1 si tenés turno: '))
+
+            if validarMotivo(motivo):
+                if motivo == 0:
+                    pacientes_urgencias.append(nro_afiliado)
+                else:
+                    pacientes_turno.append(nro_afiliado)
+            else:
+                print('El número ingresado no es correcto')
+        else:
+            print('El numero ingresado no es correcto!')
+
+        nro_afiliado = int(input("Ingresá el nro de afiliado o -1 si querés salir: "))
+                
+    return pacientes_urgencias, pacientes_turno
+
+def consultarAtenciones(pacientes_urgencias, pacientes_turno):
+    while True:
+        nro_afiliado = int(input("Ingresá el nro de afiliado o -1 para salir: "))
+        if nro_afiliado == -1:
+            break #ya se que no es buena practica pero justo para esto es muy oportuno jajaja
+        urgencias = pacientes_urgencias.count(nro_afiliado)
+        turnos = pacientes_turno.count(nro_afiliado)
+        print(f"El paciente {nro_afiliado} se atendió {urgencias} veces por urgencias y {turnos} veces con turno.")
+
+def main(): #MI FUNCION PRINCIPAL QUE EJECUTA EL RESTO. MUCHOS PRINT, I KNOW
+    urgencias, turnos = ingresoPacientes()
+    print('########### SISTEMA DE INGRESO DE PACIENTES ############')
+    print("############# ESPACIO DEL ADMINISTRADOR ##############")
+    print("\nPacientes de Urgencias:")
+    for paciente in urgencias:
+        print(paciente)
+    print("\nPacientes con Turno:")
+    for paciente in turnos:
+        print(paciente)
+    print("\nConsulta de atenciones por número de afiliado:")
+    consultarAtenciones(urgencias, turnos)
+
